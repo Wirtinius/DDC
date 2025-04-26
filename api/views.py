@@ -1,15 +1,21 @@
-from django.shortcuts import render
 from .models import DDC, Type, Status, Category, SubCategory
 from .serializers import DDCSerializer, TypeSerializer, StatusSerializer, CategorySerializer, SubCategorySerializer
 from rest_framework import generics, viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter
 
+
 class DDCViewSet(viewsets.ModelViewSet):
     queryset = DDC.objects.all()
     serializer_class = DDCSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ["status", "type"]
+    filterset_fields = {
+        "status": ["exact"], 
+        "type": ["exact"], 
+        "category": ["exact"], 
+        "subcategory": ["exact"], 
+        "date": ["gte", "lte"]
+    }
     ordering_fields = ["sum"]
 
 

@@ -6,7 +6,6 @@ class DDCSerializer(serializers.ModelSerializer):
     class Meta:
         model = DDC
         fields = '__all__'
-        required_fields = []
 
 
 class StatusSerializer(serializers.ModelSerializer):

@@ -3,7 +3,9 @@ from django.db import models
 class DDC(models.Model):
     sum = models.FloatField(null=False, blank=False)
     status = models.ForeignKey('Status', on_delete=models.CASCADE, null=False, blank=False)
-    type = models.ForeignKey('Type', on_delete=models.CASCADE, null=False, blank=False) # Добавил только 'type' поле, потому что категории и подкатегории зависимы от него и нет смысла их добавлять в DDC class
+    type = models.ForeignKey('Type', on_delete=models.CASCADE, null=False, blank=False)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, null=False, blank=False)
+    subcategory = models.ForeignKey('SubCategory', on_delete=models.CASCADE, null=False, blank=False)
     comment = models.CharField(max_length=255, null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
     
