@@ -16,9 +16,11 @@ export default function ListDDC() {
     endDate: ''
   });
 
-  // загрузка данных
   useEffect(() => {
-    api.get('/api/ddc/').then(({ data }) => setItems(data)).catch(console.error);
+    api.get('/api/ddc/')
+      .then(({ data }) => setItems(data))
+      .catch(console.error);
+
     Promise.all([
       api.get('/api/types/'),
       api.get('/api/categories/'),
@@ -36,31 +38,25 @@ export default function ListDDC() {
       .catch(console.error);
   }, []);
 
-  // словари для отображения имён
-  const typeMap    = useMemo(() => Object.fromEntries(dicts.types.map(t => [t.id, t.name])), [dicts.types]);
-  const catMap     = useMemo(() => Object.fromEntries(dicts.categories.map(c => [c.id, c.name])), [dicts.categories]);
-  const subcatMap  = useMemo(() => Object.fromEntries(dicts.subcategories.map(s => [s.id, s.name])), [dicts.subcategories]);
-  const statusMap  = useMemo(() => Object.fromEntries(dicts.statuses.map(s => [s.id, s.name])), [dicts.statuses]);
+  const typeMap   = useMemo(() => Object.fromEntries(dicts.types.map(t => [t.id, t.name])), [dicts.types]);
+  const catMap    = useMemo(() => Object.fromEntries(dicts.categories.map(c => [c.id, c.name])), [dicts.categories]);
+  const subcatMap = useMemo(() => Object.fromEntries(dicts.subcategories.map(s => [s.id, s.name])), [dicts.subcategories]);
+  const statusMap = useMemo(() => Object.fromEntries(dicts.statuses.map(s => [s.id, s.name])), [dicts.statuses]);
 
-  // переключение фильтров по словарям
   const toggleFilter = (field, value) =>
     setFilters(f => ({ ...f, [field]: f[field] === value ? null : value }));
 
-  // фильтрация по всем критериям, включая даты
   const filteredItems = useMemo(() => {
     return items.filter(d => {
-      // фильтры по id
       if (filters.type && d.type !== filters.type) return false;
       if (filters.category && d.category !== filters.category) return false;
       if (filters.subcategory && d.subcategory !== filters.subcategory) return false;
       if (filters.status && d.status !== filters.status) return false;
 
-      // фильтр по дате начала
       if (filters.startDate) {
         const start = new Date(filters.startDate);
         if (new Date(d.date) < start) return false;
       }
-      // фильтр по дате окончания (до конца дня)
       if (filters.endDate) {
         const end = new Date(filters.endDate + 'T23:59:59');
         if (new Date(d.date) > end) return false;
@@ -76,11 +72,14 @@ export default function ListDDC() {
       .catch(console.error);
   };
 
+  const handleShowComment = comment => {
+    window.alert(comment);
+  };
+
   return (
     <div className="container mt-4">
       <h2>Все записи ДДС</h2>
 
-      {/* ФИЛЬТРЫ ПО СЛОВАРЯМ */}
       <div className="mb-3">
         <strong>Тип:</strong>{' '}
         {dicts.types.map(t => (
@@ -149,11 +148,11 @@ export default function ListDDC() {
         </button>
       </div>
 
-      {/* ФИЛЬТР ПО ДАТАМ */}
       <div className="mb-4 row g-2">
         <div className="col-auto">
           <label className="form-label">С</label>
-          <input type="date"
+          <input
+            type="date"
             className="form-control"
             value={filters.startDate}
             onChange={e => setFilters(f => ({ ...f, startDate: e.target.value }))}
@@ -161,21 +160,23 @@ export default function ListDDC() {
         </div>
         <div className="col-auto">
           <label className="form-label">По</label>
-          <input type="date"
+          <input
+            type="date"
             className="form-control"
             value={filters.endDate}
             onChange={e => setFilters(f => ({ ...f, endDate: e.target.value }))}
           />
         </div>
         <div className="col-auto align-self-end">
-          <button className="btn btn-sm btn-outline-secondary"
-            onClick={() => setFilters(f => ({ ...f, startDate: '', endDate: '' }))}>
+          <button
+            className="btn btn-sm btn-outline-secondary"
+            onClick={() => setFilters(f => ({ ...f, startDate: '', endDate: '' }))}
+          >
             Сбросить даты
           </button>
         </div>
       </div>
 
-      {/* ТАБЛИЦА */}
       <table className="table table-striped">
         <thead>
           <tr>
@@ -201,9 +202,20 @@ export default function ListDDC() {
                 <Link to={`/edit/${d.id}`} className="btn btn-sm btn-primary me-1">
                   Изм.
                 </Link>
-                <button onClick={() => handleDelete(d.id)} className="btn btn-sm btn-danger">
+                <button
+                  onClick={() => handleDelete(d.id)}
+                  className="btn btn-sm btn-danger me-1"
+                >
                   Уд.
                 </button>
+                {d.comment && d.comment.trim() !== '' && (
+                  <button
+                    onClick={() => handleShowComment(d.comment)}
+                    className="btn btn-sm btn-info"
+                  >
+                    Посм. ком
+                  </button>
+                )}
               </td>
             </tr>
           ))}

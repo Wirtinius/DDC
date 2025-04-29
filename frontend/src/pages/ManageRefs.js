@@ -1,4 +1,3 @@
-// src/pages/ManageRefs.js
 import React, { useState, useEffect } from 'react';
 import api from '../api';
 
@@ -60,7 +59,6 @@ export default function ManageRefs() {
       <h2>Управление справочниками</h2>
       <div className="accordion" id="refsAccordion">
 
-        {/* Статусы */}
         <div className="accordion-item">
           <h2 className="accordion-header" id="headingStatus">
             <button className="accordion-button" type="button"
@@ -123,7 +121,6 @@ export default function ManageRefs() {
           </div>
         </div>
 
-        {/* Типы */}
         <div className="accordion-item">
           <h2 className="accordion-header" id="headingType">
             <button className="accordion-button collapsed" type="button"
@@ -184,7 +181,6 @@ export default function ManageRefs() {
           </div>
         </div>
 
-        {/* Категории */}
         <div className="accordion-item">
           <h2 className="accordion-header" id="headingCat">
             <button className="accordion-button collapsed" type="button"
@@ -261,7 +257,6 @@ export default function ManageRefs() {
           </div>
         </div>
 
-        {/* Подкатегории */}
         <div className="accordion-item">
           <h2 className="accordion-header" id="headingSubcat">
             <button className="accordion-button collapsed" type="button"

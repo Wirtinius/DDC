@@ -8,11 +8,11 @@ function App() {
   return (
     <BrowserRouter>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <Link className="navbar-brand px-3" to="/">DDC Manager</Link>
+        <Link className="navbar-brand px-3" to="/">DDC</Link>
         <div className="navbar-nav">
-          <Link className="nav-item nav-link" to="/">List</Link>
-          <Link className="nav-item nav-link" to="/create">Create</Link>
-          <Link className="nav-item nav-link" to="/refs">ManageRefs</Link>
+          <Link className="nav-item nav-link" to="/">Записи ДДС</Link>
+          <Link className="nav-item nav-link" to="/create">Создать ДДС</Link>
+          <Link className="nav-item nav-link" to="/refs">Справочники</Link>
         </div>
       </nav>
 

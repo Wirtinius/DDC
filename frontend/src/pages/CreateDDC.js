@@ -1,4 +1,3 @@
-// src/pages/CreateDDC.js
 import { useState, useEffect } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +11,7 @@ export default function CreateDDC() {
     category: '',
     subcategory: '',
     status: '',
+    comment: '',
   });
 
   const [opts, setOpts] = useState({
@@ -59,6 +59,7 @@ export default function CreateDDC() {
       category:    parseInt(form.category, 10),
       subcategory: parseInt(form.subcategory, 10),
       status:      parseInt(form.status, 10),
+      comment:     form.comment,
     })
     .then(() => navigate('/'))
     .catch(err => {
@@ -151,6 +152,17 @@ export default function CreateDDC() {
               <option key={s.id} value={s.id}>{s.name}</option>
             ))}
           </select>
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Комментарий</label>
+          <input
+            type="text" step="0.01"
+            name="comment"
+            className="form-control"
+            value={form.comment}
+            onChange={handleChange}
+          />
         </div>
 
         <button type="submit" className="btn btn-success">Создать</button>

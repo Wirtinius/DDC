@@ -1,4 +1,3 @@
-// src/pages/EditDDC.js
 import { useState, useEffect } from 'react';
 import api from '../api';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -21,19 +20,27 @@ export default function EditDDC() {
       api.get('/api/statuses/'),
     ])
     .then(([rDDC, rT, rC, rSC, rS]) => {
-      setForm({
-        sum:         String(rDDC.data.sum),
-        type:        String(rDDC.data.type),
-        category:    String(rDDC.data.category),
-        subcategory: String(rDDC.data.subcategory),
-        status:      String(rDDC.data.status),
-      });
-      setOpts({
-        types:        rT.data,
-        categories:   rC.data,
-        subcategories:rSC.data,
-        statuses:     rS.data,
-      });
+
+        const origDate = rDDC.data.date
+        ? new Date(rDDC.data.date).toISOString().slice(0, 10)
+        : '';
+
+        setForm({
+            sum:         String(rDDC.data.sum),
+            type:        String(rDDC.data.type),
+            category:    String(rDDC.data.category),
+            subcategory: String(rDDC.data.subcategory),
+            status:      String(rDDC.data.status),
+            comment:     String(rDDC.data.comment),
+            date:        origDate,
+
+        });
+        setOpts({
+            types:        rT.data,
+            categories:   rC.data,
+            subcategories:rSC.data,
+            statuses:     rS.data,
+        });
     })
     .catch(console.error);
   }, [id]);
@@ -63,6 +70,8 @@ export default function EditDDC() {
       category:    parseInt(form.category, 10),
       subcategory: parseInt(form.subcategory, 10),
       status:      parseInt(form.status, 10),
+      comment:     form.comment,
+      date:     form.date,
     })
     .then(() => navigate('/'))
     .catch(() => alert('Ошибка при обновлении'));
@@ -152,6 +161,29 @@ export default function EditDDC() {
               <option key={s.id} value={s.id}>{s.name}</option>
             ))}
           </select>
+        </div>
+        
+        <div className="mb-3">
+          <label className="form-label">Комментарий</label>
+          <input
+            type="text" step="0.01"
+            name="comment"
+            className="form-control"
+            value={form.comment}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="mb-3">
+            <label className="form-label">Дата</label>
+            <input
+                type="date"
+                name="date"
+                className="form-control"
+                value={form.date}
+                onChange={handleChange}
+                required
+            />
         </div>
 
         <button type="submit" className="btn btn-primary">Сохранить</button>
