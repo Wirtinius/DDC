@@ -3,9 +3,18 @@ from rest_framework import serializers
 
 
 class DDCSerializer(serializers.ModelSerializer):
+    status      = serializers.PrimaryKeyRelatedField(queryset=Status.objects.all())
+    type        = serializers.PrimaryKeyRelatedField(queryset=Type.objects.all())
+    category    = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    subcategory = serializers.PrimaryKeyRelatedField(queryset=SubCategory.objects.all())
+
     class Meta:
-        model = DDC
-        fields = '__all__'
+        model  = DDC
+        fields = [
+            "id", "sum", "status", "type",
+            "category", "subcategory",
+            "comment", "date"
+        ]
 
 
 class StatusSerializer(serializers.ModelSerializer):
