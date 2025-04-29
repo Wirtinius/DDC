@@ -192,7 +192,7 @@ export default function ListDDC() {
         <tbody>
           {filteredItems.map(d => (
             <tr key={d.id}>
-              <td>{d.sum}</td>
+              <td>{d.sum} р.</td>
               <td>{typeMap[d.type] ?? d.type}</td>
               <td>{catMap[d.category] ?? d.category}</td>
               <td>{subcatMap[d.subcategory] ?? d.subcategory}</td>
